@@ -38,9 +38,17 @@ void NMEA_Position(void);
 void NMEA_Out(byte *, size_t, bool);
 void NMEA_GGA(void);
 
-#if defined(AIRCONNECT_IS_ACTIVE)
-#define MAX_AIRCONNECT_CLIENTS    2
-extern WiFiClient AirConnectClient[MAX_AIRCONNECT_CLIENTS];
+#if defined(NMEA_TCP_SERVICE)
+
+typedef struct NmeaTCP_struct {
+  WiFiClient client;
+  time_t connect_ts;  /* connect time stamp */
+  bool ack;           /* acknowledge */
+} NmeaTCP_t;
+
+#define MAX_NMEATCP_CLIENTS    2
+#define NMEATCP_ACK_TIMEOUT    2 /* seconds */
+
 #endif
 
 #endif /* NMEAHELPER_H */
